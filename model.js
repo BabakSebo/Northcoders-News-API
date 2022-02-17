@@ -28,3 +28,10 @@ exports.increaseArticleVote = (id, newVotes) => {
     });
 };
 
+
+exports.selectUsers = () => {
+  return db.query("SELECT * FROM users").then(({ rows }) => {
+    return rows;
+  });
+};
+

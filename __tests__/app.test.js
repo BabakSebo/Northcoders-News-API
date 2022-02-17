@@ -12,7 +12,8 @@ afterAll(() => {
 
 
 describe("404 Error - path not found", () => {
-  test('returns a 404 error when incorrect path passed, with a messagee that states "path not found"', () => {
+  test('returns a 404 error when incorrect path passed, with a message that states "path not found"', () => {
+
     return request(app)
       .get("/api/topicos")
       .expect(404)
@@ -113,4 +114,26 @@ describe("PATCH api/articles/:article_id", () => {
       });
   });
 });
+
+describe("GET api/users", () => {
+  test("should return an array of objects containing the username property", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((response) => {
+        expect(response.body.users).toHaveLength(4);
+        response.body.users.forEach((user) => {
+          expect(user).toEqual(
+            expect.objectContaining({
+              username: expect.any(String),
+              name: expect.any(String),
+              avatar_url: expect.any(String),
+            })
+          );
+        });
+      });
+  });
+});
+
+
 
