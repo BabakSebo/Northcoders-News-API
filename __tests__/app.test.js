@@ -20,7 +20,6 @@ describe("404 Error - path not found: topics, users and articles", () => {
       });
   });
 });
-
 describe("/api/topics", () => {
   describe("GET", () => {
     test("returns an array of all topic objects", () => {
@@ -39,7 +38,6 @@ describe("/api/topics", () => {
           });
         });
     });
-
   });
 });
 describe("api/articles/:article_id", () => {
@@ -75,14 +73,11 @@ describe("api/articles/:article_id", () => {
         .get(`/api/articles/${articleId}`)
         .expect(404)
         .then(({ body }) => {
-
           expect(body.message).toEqual("ID does not exist");
-
         });
     });
   });
 });
-
 describe("PATCH api/articles/:article_id", () => {
   test('Update article so the vote counts increases by "newVote" property (positive number)', () => {
     return request(app)
@@ -112,7 +107,6 @@ describe("PATCH api/articles/:article_id", () => {
       });
   });
 });
-
 describe("GET api/users", () => {
   test("should return an array of objects containing the username property", () => {
     return request(app)
@@ -124,14 +118,12 @@ describe("GET api/users", () => {
           expect(user).toEqual(
             expect.objectContaining({
               username: expect.any(String),
-
             })
           );
         });
       });
   });
 });
-
 describe("GET api/articles", () => {
   test("should return an array of articles containing the article objects", () => {
     return request(app)
@@ -154,7 +146,6 @@ describe("GET api/articles", () => {
       });
   });
 });
-
 describe("GET /api/articles/:article:id (comment count)", () => {
   test("Article response object should now include the comment count", () => {
     return request(app)
@@ -167,4 +158,25 @@ describe("GET /api/articles/:article:id (comment count)", () => {
       });
   });
 });
-
+describe("GET /api/articles/:article_id/comments", () => {
+  test("should return an array of comments for the given article id", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments.length).toEqual(11);
+        body.comments.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              article_id: expect.any(Number),
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+            })
+          );
+        });
+      });
+  });
+});

@@ -1,12 +1,11 @@
-
 const {
   selectTopics,
   selectArticlesById,
   increaseArticleVote,
   selectUsers,
   selectArticles,
+  selectCommentsById,
 } = require("./model");
-
 
 exports.getTopics = (req, res, next) => {
   selectTopics()
@@ -37,7 +36,6 @@ exports.patchArticle = (req, res, next) => {
     .catch(next);
 };
 
-
 exports.getUsers = (req, res, next) => {
   selectUsers()
     .then((users) => {
@@ -46,11 +44,19 @@ exports.getUsers = (req, res, next) => {
     .catch(next);
 };
 
-
 exports.getArticles = (req, res, next) => {
   selectArticles()
     .then((articles) => {
       res.status(200).send({ articles });
+    })
+    .catch(next);
+};
+
+exports.getComments = (req, res, next) => {
+  const id = req.params.article_id;
+  selectCommentsById(id)
+    .then((comments) => {
+      res.status(200).send({ comments });
     })
     .catch(next);
 };
