@@ -48,7 +48,7 @@ describe("api/articles/:article_id", () => {
         .get(`/api/articles/${articleId}`)
         .expect(200)
         .then(({ body }) => {
-          expect(body.article).toEqual({
+          expect(body.article).toMatchObject({
             article_id: articleId,
             title: "Eight pug gifs that remind me of mitch",
             topic: "mitch",
@@ -56,7 +56,6 @@ describe("api/articles/:article_id", () => {
             body: "some gifs",
             created_at: expect.any(String),
             votes: 0,
-            comment_count: expect.any(Number),
           });
         });
     });
@@ -119,8 +118,6 @@ describe("GET api/users", () => {
           expect(user).toEqual(
             expect.objectContaining({
               username: expect.any(String),
-              name: expect.any(String),
-              avatar_url: expect.any(String),
             })
           );
         });
@@ -141,7 +138,6 @@ describe("GET api/articles", () => {
               title: expect.any(String),
               topic: expect.any(String),
               author: expect.any(String),
-              body: expect.any(String),
               created_at: expect.any(String),
               votes: expect.any(Number),
             })
@@ -156,18 +152,9 @@ describe("GET /api/articles/:article:id (comment count)", () => {
       .get("/api/articles/1")
       .expect(200)
       .then(({ body }) => {
-        expect(body.article).toEqual(
-          expect.objectContaining({
-            article_id: 1,
-            title: "Living in the shadow of a great man",
-            topic: "mitch",
-            author: "butter_bridge",
-            body: "I find this existence challenging",
-            created_at: expect.any(String),
-            votes: 100,
-            comment_count: expect.any(Number),
-          })
-        );
+        expect(body.article).toMatchObject({
+          comment_count: 11,
+        });
       });
   });
 });

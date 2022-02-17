@@ -9,11 +9,12 @@ exports.selectTopics = () => {
 exports.selectArticlesById = (id) => {
   return db
     .query(
-      `SELECT articles.*, COUNT(comments.comment_id)::INT 
+      `SELECT articles.*, 
+    COUNT(comments.comment_id)::INT
     AS comment_count 
     FROM articles
-    LEFT JOIN comments 
-    ON articles.article_id = comments.comment_id 
+    JOIN comments 
+    ON comments.article_id = articles.article_id 
     WHERE articles.article_id = $1
     GROUP BY articles.article_id;`,
       [id]
@@ -37,13 +38,17 @@ exports.increaseArticleVote = (id, newVotes) => {
 };
 
 exports.selectUsers = () => {
-  return db.query("SELECT * FROM users").then(({ rows }) => {
+  return db.query("SELECT username FROM users").then(({ rows }) => {
     return rows;
   });
 };
 
 exports.selectArticles = () => {
-  return db.query("SELECT * FROM articles").then(({ rows }) => {
-    return rows;
-  });
+  return db
+    .query(
+      "SELECT article_id, title, topic, author, created_at, votes FROM articles"
+    )
+    .then(({ rows }) => {
+      return rows;
+    });
 };
