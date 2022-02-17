@@ -10,6 +10,7 @@ afterAll(() => {
   db.end();
 });
 
+
 describe("404 Error - path not found", () => {
   test('returns a 404 error when incorrect path passed, with a messagee that states "path not found"', () => {
     return request(app)
@@ -20,6 +21,7 @@ describe("404 Error - path not found", () => {
       });
   });
 });
+
 describe("/api/topics", () => {
   describe("GET", () => {
     test("returns an array of all topic objects", () => {
@@ -38,6 +40,7 @@ describe("/api/topics", () => {
           });
         });
     });
+
   });
 });
 describe("api/articles/:article_id", () => {
@@ -75,6 +78,7 @@ describe("api/articles/:article_id", () => {
         .then(({ body }) => {
           console.log(body.message, "body message");
           expect(body.message).toEqual("ID does not exist");
+
         });
     });
   });

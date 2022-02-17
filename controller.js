@@ -1,4 +1,6 @@
+
 const { selectTopics, selectArticlesById } = require("./model");
+
 
 exports.getTopics = (req, res, next) => {
   selectTopics()
@@ -9,6 +11,7 @@ exports.getTopics = (req, res, next) => {
       next(err);
     });
 };
+
 
 exports.getArticlesById = (req, res, next) => {
   const id = req.params.article_id;
