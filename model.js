@@ -8,7 +8,19 @@ exports.selectTopics = () => {
 
 exports.selectArticlesById = (id) => {
   return db
-    .query("SELECT * FROM articles WHERE article_id = $1", [id])
+
+    .query(
+      `SELECT articles.*, 
+    COUNT(comments.comment_id)::INT
+    AS comment_count 
+    FROM articles
+    JOIN comments 
+    ON comments.article_id = articles.article_id 
+    WHERE articles.article_id = $1
+    GROUP BY articles.article_id;`,
+      [id]
+    )
+
     .then(({ rows }) => {
       if (rows.length === 0)
         return Promise.reject({ status: 404, message: "ID does not exist" });
@@ -30,14 +42,20 @@ exports.increaseArticleVote = (id, newVotes) => {
 
 
 exports.selectUsers = () => {
-  return db.query("SELECT * FROM users").then(({ rows }) => {
+  return db.query("SELECT username FROM users").then(({ rows }) => {
+
     return rows;
   });
 };
 
 exports.selectArticles = () => {
-  return db.query("SELECT * FROM articles").then(({ rows }) => {
-    return rows;
-  });
+
+  return db
+    .query(
+      "SELECT article_id, title, topic, author, created_at, votes FROM articles"
+    )
+    .then(({ rows }) => {
+      return rows;
+    });
 };
 

@@ -10,7 +10,6 @@ afterAll(() => {
   db.end();
 });
 
-
 describe("404 Error - path not found: topics, users and articles", () => {
   test('returns a 404 error when incorrect path passed, with a message that states "path not found"', () => {
     return request(app)
@@ -51,7 +50,7 @@ describe("api/articles/:article_id", () => {
         .get(`/api/articles/${articleId}`)
         .expect(200)
         .then(({ body }) => {
-          expect(body.article).toEqual({
+          expect(body.article).toMatchObject({
             article_id: articleId,
             title: "Eight pug gifs that remind me of mitch",
             topic: "mitch",
@@ -125,8 +124,7 @@ describe("GET api/users", () => {
           expect(user).toEqual(
             expect.objectContaining({
               username: expect.any(String),
-              name: expect.any(String),
-              avatar_url: expect.any(String),
+
             })
           );
         });
@@ -148,7 +146,6 @@ describe("GET api/articles", () => {
               title: expect.any(String),
               topic: expect.any(String),
               author: expect.any(String),
-              body: expect.any(String),
               created_at: expect.any(String),
               votes: expect.any(Number),
             })
@@ -157,3 +154,17 @@ describe("GET api/articles", () => {
       });
   });
 });
+
+describe("GET /api/articles/:article:id (comment count)", () => {
+  test("Article response object should now include the comment count", () => {
+    return request(app)
+      .get("/api/articles/1")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article).toMatchObject({
+          comment_count: 11,
+        });
+      });
+  });
+});
+

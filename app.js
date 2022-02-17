@@ -6,7 +6,6 @@ const {
   getArticlesById,
   patchArticle,
   getUsers,
-
   getArticles,
 } = require("./controller");
 
