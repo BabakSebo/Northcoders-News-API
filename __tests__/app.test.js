@@ -179,4 +179,20 @@ describe("GET /api/articles/:article_id/comments", () => {
         });
       });
   });
+  test("status 400: bad request. Responds with an error when passed a wrong user ID", () => {
+    return request(app)
+      .get("/api/articles/notanID/comments")
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Bad Request");
+      });
+  });
+  test("status 404: path not found. Responds with an error message when passed an article id that does not exist", () => {
+    return request(app)
+      .get("/api/articles/999999/comments")
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("ID does not exist");
+      });
+  });
 });

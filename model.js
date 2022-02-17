@@ -61,6 +61,8 @@ exports.selectCommentsById = (id) => {
       [id]
     )
     .then(({ rows }) => {
+      if (rows.length === 0)
+        return Promise.reject({ status: 404, message: "ID does not exist" });
       return rows;
     });
 };
