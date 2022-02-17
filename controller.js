@@ -1,9 +1,11 @@
+
 const {
   selectTopics,
   selectArticlesById,
   increaseArticleVote,
   selectUsers,
 } = require("./model");
+
 
 exports.getTopics = (req, res, next) => {
   selectTopics()
@@ -24,6 +26,7 @@ exports.getArticlesById = (req, res, next) => {
     .catch(next);
 };
 
+
 exports.patchArticle = (req, res, next) => {
   const id = req.params.article_id;
   const newVote = req.body.inc_votes;
@@ -34,6 +37,7 @@ exports.patchArticle = (req, res, next) => {
     .catch(next);
 };
 
+
 exports.getUsers = (req, res, next) => {
   selectUsers()
     .then((users) => {
@@ -41,3 +45,4 @@ exports.getUsers = (req, res, next) => {
     })
     .catch(next);
 };
+
