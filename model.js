@@ -8,6 +8,7 @@ exports.selectTopics = () => {
 
 exports.selectArticlesById = (id) => {
   return db
+
     .query(
       `SELECT articles.*, 
     COUNT(comments.comment_id)::INT
@@ -19,12 +20,14 @@ exports.selectArticlesById = (id) => {
     GROUP BY articles.article_id;`,
       [id]
     )
+
     .then(({ rows }) => {
       if (rows.length === 0)
         return Promise.reject({ status: 404, message: "ID does not exist" });
       return rows[0];
     });
 };
+
 
 exports.increaseArticleVote = (id, newVotes) => {
   return db
@@ -37,13 +40,16 @@ exports.increaseArticleVote = (id, newVotes) => {
     });
 };
 
+
 exports.selectUsers = () => {
   return db.query("SELECT username FROM users").then(({ rows }) => {
+
     return rows;
   });
 };
 
 exports.selectArticles = () => {
+
   return db
     .query(
       "SELECT article_id, title, topic, author, created_at, votes FROM articles"
@@ -52,3 +58,4 @@ exports.selectArticles = () => {
       return rows;
     });
 };
+

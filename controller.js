@@ -1,3 +1,4 @@
+
 const {
   selectTopics,
   selectArticlesById,
@@ -5,6 +6,7 @@ const {
   selectUsers,
   selectArticles,
 } = require("./model");
+
 
 exports.getTopics = (req, res, next) => {
   selectTopics()
@@ -35,6 +37,7 @@ exports.patchArticle = (req, res, next) => {
     .catch(next);
 };
 
+
 exports.getUsers = (req, res, next) => {
   selectUsers()
     .then((users) => {
@@ -42,6 +45,7 @@ exports.getUsers = (req, res, next) => {
     })
     .catch(next);
 };
+
 
 exports.getArticles = (req, res, next) => {
   selectArticles()
