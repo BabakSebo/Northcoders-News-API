@@ -11,11 +11,10 @@ afterAll(() => {
 });
 
 
-describe("404 Error - path not found", () => {
+describe("404 Error - path not found: topics, users and articles", () => {
   test('returns a 404 error when incorrect path passed, with a message that states "path not found"', () => {
-
     return request(app)
-      .get("/api/topicos")
+      .get("/api/noname")
       .expect(404)
       .then((response) => {
         expect(response.body.message).toEqual("path not found");
@@ -135,5 +134,26 @@ describe("GET api/users", () => {
   });
 });
 
-
-
+describe("GET api/articles", () => {
+  test("should return an array of articles containing the article objects", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        expect(response.body.articles).toHaveLength(12);
+        response.body.articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              article_id: expect.any(Number),
+              title: expect.any(String),
+              topic: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+            })
+          );
+        });
+      });
+  });
+});

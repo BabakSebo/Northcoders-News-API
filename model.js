@@ -35,3 +35,9 @@ exports.selectUsers = () => {
   });
 };
 
+exports.selectArticles = () => {
+  return db.query("SELECT * FROM articles").then(({ rows }) => {
+    return rows;
+  });
+};
+
