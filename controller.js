@@ -1,5 +1,9 @@
 
-const { selectTopics, selectArticlesById } = require("./model");
+const {
+  selectTopics,
+  selectArticlesById,
+  increaseArticleVote,
+} = require("./model");
 
 
 exports.getTopics = (req, res, next) => {
@@ -21,3 +25,15 @@ exports.getArticlesById = (req, res, next) => {
     })
     .catch(next);
 };
+
+
+exports.patchArticle = (req, res, next) => {
+  const id = req.params.article_id;
+  const newVote = req.body.inc_votes;
+  increaseArticleVote(id, newVote)
+    .then((article) => {
+      res.status(200).send({ article });
+    })
+    .catch(next);
+};
+

@@ -76,10 +76,41 @@ describe("api/articles/:article_id", () => {
         .get(`/api/articles/${articleId}`)
         .expect(404)
         .then(({ body }) => {
-          console.log(body.message, "body message");
+
           expect(body.message).toEqual("ID does not exist");
 
         });
     });
   });
 });
+
+describe("PATCH api/articles/:article_id", () => {
+  test('Update article so the vote counts increases by "newVote" property (positive number)', () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: 1 })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article.votes).toBe(101);
+      });
+  });
+  test('Update article so the vote counts decrease by "newVote" property (negative number)', () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: -10 })
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article.votes).toBe(90);
+      });
+  });
+  test("status 400: Bad request. Returns a 400 error when passed the wrong data type into inc_votes object", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send({ inc_votes: "not a number" })
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toBe("Bad Request");
+      });
+  });
+});
+

@@ -6,7 +6,6 @@ exports.selectTopics = () => {
   });
 };
 
-
 exports.selectArticlesById = (id) => {
   return db
     .query("SELECT * FROM articles WHERE article_id = $1", [id])
@@ -16,3 +15,16 @@ exports.selectArticlesById = (id) => {
       return rows[0];
     });
 };
+
+
+exports.increaseArticleVote = (id, newVotes) => {
+  return db
+    .query(
+      "UPDATE articles SET votes = votes + $1 WHERE article_id = $2 RETURNING *",
+      [newVotes, id]
+    )
+    .then(({ rows }) => {
+      return rows[0];
+    });
+};
+
