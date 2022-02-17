@@ -1,12 +1,15 @@
 const express = require("express");
 const app = express();
+
 const {
   getTopics,
   getArticlesById,
   patchArticle,
   getUsers,
+
   getArticles,
 } = require("./controller");
+
 const {
   handlePSQLerrors,
   customErrors,
@@ -18,8 +21,10 @@ app.use(express.json());
 app.get("/api/topics", getTopics);
 app.get("/api/articles/:article_id", getArticlesById);
 app.patch("/api/articles/:article_id", patchArticle);
+
 app.get("/api/users", getUsers);
 app.get("/api/articles", getArticles);
+
 
 app.all("/*", (req, res) => {
   res.status(404).send({ message: "path not found" });

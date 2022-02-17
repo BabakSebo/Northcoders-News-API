@@ -10,6 +10,7 @@ afterAll(() => {
   db.end();
 });
 
+
 describe("404 Error - path not found: topics, users and articles", () => {
   test('returns a 404 error when incorrect path passed, with a message that states "path not found"', () => {
     return request(app)
@@ -20,6 +21,7 @@ describe("404 Error - path not found: topics, users and articles", () => {
       });
   });
 });
+
 describe("/api/topics", () => {
   describe("GET", () => {
     test("returns an array of all topic objects", () => {
@@ -38,6 +40,7 @@ describe("/api/topics", () => {
           });
         });
     });
+
   });
 });
 describe("api/articles/:article_id", () => {
@@ -73,11 +76,14 @@ describe("api/articles/:article_id", () => {
         .get(`/api/articles/${articleId}`)
         .expect(404)
         .then(({ body }) => {
+
           expect(body.message).toEqual("ID does not exist");
+
         });
     });
   });
 });
+
 describe("PATCH api/articles/:article_id", () => {
   test('Update article so the vote counts increases by "newVote" property (positive number)', () => {
     return request(app)
@@ -107,6 +113,7 @@ describe("PATCH api/articles/:article_id", () => {
       });
   });
 });
+
 describe("GET api/users", () => {
   test("should return an array of objects containing the username property", () => {
     return request(app)
@@ -126,6 +133,7 @@ describe("GET api/users", () => {
       });
   });
 });
+
 describe("GET api/articles", () => {
   test("should return an array of articles containing the article objects", () => {
     return request(app)

@@ -16,6 +16,7 @@ exports.selectArticlesById = (id) => {
     });
 };
 
+
 exports.increaseArticleVote = (id, newVotes) => {
   return db
     .query(
@@ -26,6 +27,7 @@ exports.increaseArticleVote = (id, newVotes) => {
       return rows[0];
     });
 };
+
 
 exports.selectUsers = () => {
   return db.query("SELECT * FROM users").then(({ rows }) => {
@@ -38,3 +40,4 @@ exports.selectArticles = () => {
     return rows;
   });
 };
+
