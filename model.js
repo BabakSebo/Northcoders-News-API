@@ -47,7 +47,7 @@ exports.selectUsers = () => {
 exports.selectArticles = () => {
   return db
     .query(
-      "SELECT article_id, title, topic, author, created_at, votes FROM articles"
+      "SELECT articles.*, COUNT(comments.article_id):: INT AS comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.article_id GROUP BY articles.article_id;"
     )
     .then(({ rows }) => {
       return rows;
