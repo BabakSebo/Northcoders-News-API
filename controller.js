@@ -47,7 +47,7 @@ exports.getUsers = (req, res, next) => {
 };
 
 exports.getArticles = (req, res, next) => {
-  selectArticles()
+  selectArticles(req.query)
     .then((articles) => {
       res.status(200).send({ articles });
     })
