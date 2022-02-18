@@ -204,3 +204,26 @@ describe("GET /api/articles/:article_id/comments", () => {
       });
   });
 });
+describe("GET /api/articles (comment count)", () => {
+  test("returns an array of article object which includes the comment count for all entries", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        expect(response.body.articles).toHaveLength(12);
+        response.body.articles.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              article_id: expect.any(Number),
+              title: expect.any(String),
+              topic: expect.any(String),
+              author: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              comment_count: expect.any(Number),
+            })
+          );
+        });
+      });
+  });
+});
