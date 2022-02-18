@@ -195,4 +195,12 @@ describe("GET /api/articles/:article_id/comments", () => {
         expect(body.message).toEqual("ID does not exist");
       });
   });
+  test("returns an empty array when valid article_id is passed, but no comments on the article", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.comments).toEqual([]);
+      });
+  });
 });

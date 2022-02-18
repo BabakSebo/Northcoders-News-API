@@ -1,4 +1,5 @@
 const db = require("./db/connection");
+const format = require("pg-format");
 
 exports.selectTopics = () => {
   return db.query(`SELECT * FROM topics`).then(({ rows }) => {
@@ -13,7 +14,7 @@ exports.selectArticlesById = (id) => {
     COUNT(comments.comment_id)::INT
     AS comment_count 
     FROM articles
-    JOIN comments 
+    LEFT JOIN comments 
     ON comments.article_id = articles.article_id 
     WHERE articles.article_id = $1
     GROUP BY articles.article_id;`,
@@ -61,8 +62,6 @@ exports.selectCommentsById = (id) => {
       [id]
     )
     .then(({ rows }) => {
-      if (rows.length === 0)
-        return Promise.reject({ status: 404, message: "ID does not exist" });
       return rows;
     });
 };

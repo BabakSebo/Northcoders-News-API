@@ -6,6 +6,7 @@ const {
   selectArticles,
   selectCommentsById,
 } = require("./model");
+const { checkArticleIdExists } = require("./utils.models");
 
 exports.getTopics = (req, res, next) => {
   selectTopics()
@@ -54,9 +55,12 @@ exports.getArticles = (req, res, next) => {
 
 exports.getComments = (req, res, next) => {
   const id = req.params.article_id;
-  selectCommentsById(id)
-    .then((comments) => {
+  Promise.all([selectCommentsById(id), checkArticleIdExists(id)])
+    .then(([comments]) => {
       res.status(200).send({ comments });
     })
-    .catch(next);
+    .catch((err) => {
+      console.log(err);
+      next(err);
+    });
 };
