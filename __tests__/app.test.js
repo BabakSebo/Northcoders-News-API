@@ -265,3 +265,15 @@ describe("POST /api/articles/:article_id/comments", () => {
       });
   });
 });
+describe("GET /api/articles (queries)", () => {
+  test("sort articles by date created", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.articles).toBeSortedBy("created_at", {
+          descending: true,
+        });
+      });
+  });
+});
