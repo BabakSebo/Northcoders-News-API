@@ -227,3 +227,41 @@ describe("GET /api/articles (comment count)", () => {
       });
   });
 });
+describe("POST /api/articles/:article_id/comments", () => {
+  test("post a comment to a specified article", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .expect(200)
+      .send({ username: "butter_bridge", body: "test" })
+      .then((response) => {
+        expect(response.body.comment).toEqual(
+          expect.objectContaining({
+            article_id: expect.any(Number),
+            comment_id: expect.any(Number),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+            author: "butter_bridge",
+            body: "test",
+          })
+        );
+      });
+  });
+  test('status 400: bad request. username and body properties have not been added, responds with "data incomplete" ', () => {
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send({})
+      .expect(400)
+      .then(({ body }) => {
+        expect(body.message).toEqual("Bad Request");
+      });
+  });
+  test('status 404: path not found. Username not found in database responds with a "username does not exist" message', () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({ username: "invalid_user", body: "test" })
+      .expect(404)
+      .then(({ body }) => {
+        expect(body.message).toEqual("invalid entry");
+      });
+  });
+});

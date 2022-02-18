@@ -5,6 +5,7 @@ const {
   selectUsers,
   selectArticles,
   selectCommentsById,
+  addComments,
 } = require("./model");
 const { checkArticleIdExists } = require("./utils.models");
 
@@ -58,6 +59,19 @@ exports.getComments = (req, res, next) => {
   Promise.all([selectCommentsById(id), checkArticleIdExists(id)])
     .then(([comments]) => {
       res.status(200).send({ comments });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+exports.postComments = (req, res, next) => {
+  const id = req.params.article_id;
+  const username = req.body.username;
+  const body = req.body.body;
+  addComments(id, username, body)
+    .then((comment) => {
+      res.status(200).send({ comment });
     })
     .catch((err) => {
       next(err);
