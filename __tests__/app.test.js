@@ -277,3 +277,18 @@ describe("GET /api/articles (queries)", () => {
       });
   });
 });
+describe("DELETE /api/comments/:comment_id", () => {
+  test("deletes the given comment by comment id", () => {
+    return request(app)
+      .delete("/api/comments/2")
+      .expect(204)
+      .then(() => {
+        return request(app)
+          .get("/api/articles/1/comments")
+          .expect(200)
+          .then(({ body: { comments } }) => {
+            expect(comments).toHaveLength(10);
+          });
+      });
+  });
+});

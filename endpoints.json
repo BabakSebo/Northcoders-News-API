@@ -23,5 +23,97 @@
         }
       ]
     }
+  },
+  "GET /api/articles/:article_id": {
+    "description": "serves a specific article",
+    "queries": [],
+    "exampleResponse": {
+      "articles": [
+        {
+          "article_id": 1,
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "test",
+          "body": "Text from the article..",
+          "created_at": 1527695953341,
+          "votes": 1,
+          "comment_count": 1
+        }
+      ]
+    }
+  },
+  "PATCH /api/articles/:article_id": {
+    "description": "serves a specific article by incrementing/decrementing votes",
+    "queries": [],
+    "exampleRequest": {
+      "users": [
+        {
+          "inc_votes": 1
+        }
+      ]
+    },
+    "exampleResponse": {
+      "articles": [
+        {
+          "article_id": 1,
+          "title": "Seafood substitutions are increasing",
+          "topic": "cooking",
+          "author": "test",
+          "body": "Text from the article..",
+          "created_at": 1527695953341,
+          "votes": 2,
+          "comment_count": 1
+        }
+      ]
+    }
+  },
+  "GET /api/users": {
+    "description": "serves an array of all users",
+    "queries": [],
+    "exampleResponse": {
+      "users": [
+        {
+          "username": "testUsername"
+        }
+      ]
+    }
+  },
+  "GET /api/articles/:article_id/comments": {
+    "description": "serves an array of all comments for the specified article",
+    "queries": [],
+    "exampleResponse": {
+      "comments": [
+        {
+          "article_id": 1,
+          "comment_id": 1,
+          "votes": 2,
+          "created_at": 1527695953341,
+          "author": "test",
+          "body": "Text from the article.."
+        }
+      ]
+    }
+  },
+  "POST /api/articles/:article_id/comments": {
+    "description": "adds comment to specified article and serves the new comment",
+    "queries": [],
+    "exampleRequest": {
+      "body": { "username": "test", "body": "Text from the comment..." }
+    },
+    "exampleResponse": {
+      "comment": {
+        "article_id": 1,
+        "comment_id": 1,
+        "votes": 2,
+        "created_at": 1527695953341,
+        "author": "test",
+        "body": "Text from the comment..."
+      }
+    }
+  },
+  "DELETE /api/comments/:comment_id": {
+    "description": "deletes specified comment and serves no response",
+    "queries": [],
+    "exampleResponse": {}
   }
 }
