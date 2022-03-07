@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 const {
   getTopics,
@@ -18,6 +19,7 @@ const {
   handle500s,
 } = require("./error-handling");
 
+app.use(cors());
 app.use(express.json());
 
 app.get("/api/topics", getTopics);
